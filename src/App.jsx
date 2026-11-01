@@ -1,9 +1,11 @@
-import AuthForm from "./components/AuthForm";
+// import AuthForm from "./components/AuthForm";
+import LoginForm from "./components/LoginForm";
 
 const App = () => {
   return (
     <>
-      <AuthForm />
+      {/* <AuthForm /> */}
+      <LoginForm />
     </>
   );
 };

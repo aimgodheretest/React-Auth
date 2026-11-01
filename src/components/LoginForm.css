@@ -1,0 +1,40 @@
+.auth-page.login-page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.auth-page.login-page .auth-card {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+/* Center the input fields */
+.auth-page.login-page .auth-input {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Center the labels and align them with inputs */
+.auth-page.login-page .auth-label {
+    display: block;
+    width: 80%;
+    margin: 0 auto 8px;
+    text-align: left;
+}
+
+@media (max-width: 576px) {
+    .auth-page.login-page {
+        padding: 16px;
+    }
+
+    .auth-page.login-page .auth-input,
+    .auth-page.login-page .auth-label {
+        width: 100%;
+    }
+}
