@@ -82,3 +82,27 @@ export async function updatePassword(idToken, newPassword) {
 
   return data;
 }
+
+// Check Token Validity
+export async function checkTokenValidity(idToken) {
+  const response = await fetch(
+    `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        idToken: idToken,
+      }),
+    },
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error.message);
+  }
+
+  return data;
+}

@@ -5,7 +5,7 @@ import { useAuth } from "./context/AuthContext";
 import Profile from "./components/Profile/Profile";
 
 const App = () => {
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, logout, isLoading } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
 
   function showProfileHandler() {
@@ -15,6 +15,11 @@ const App = () => {
   function logoutHandler() {
     logout();
     setShowProfile(false);
+  }
+
+  // Wait until Firebase finishes validating the token
+  if (isLoading) {
+    return <div>Checking authentication...</div>;
   }
 
   return (

@@ -1,20 +1,42 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { checkTokenValidity } from "../services/auth";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  // Load the existing token from localStorage when the app initializes
   const [token, setToken] = useState(() => {
     return localStorage.getItem("token");
   });
 
-  // Store the Firebase ID token in state and localStorage
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function validateToken() {
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        await checkTokenValidity(token);
+      } catch (error) {
+        console.error("Token validation failed:", error.message);
+
+        setToken(null);
+        localStorage.removeItem("token");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    validateToken();
+  }, []);
+
   function setAuthToken(idToken) {
     setToken(idToken);
     localStorage.setItem("token", idToken);
   }
 
-  // Clear the token during logout
   function logout() {
     setToken(null);
     localStorage.removeItem("token");
@@ -23,6 +45,7 @@ export function AuthProvider({ children }) {
   const contextValue = {
     token,
     isLoggedIn: !!token,
+    isLoading,
     setAuthToken,
     logout,
   };
@@ -32,7 +55,6 @@ export function AuthProvider({ children }) {
   );
 }
 
-// Custom hook to access authentication context
 export function useAuth() {
   const context = useContext(AuthContext);
 
