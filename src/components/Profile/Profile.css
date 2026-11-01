@@ -1,0 +1,27 @@
+.profile-page {
+    padding-top: 60px;
+}
+
+.profile-card {
+    max-width: 620px;
+    margin: 0 auto;
+    background: #111114 !important;
+    border: 1px solid #34343b !important;
+    color: #c7c9ce !important;
+    border-radius: 12px;
+}
+
+.profile-title {
+    color: #e50925;
+    margin-bottom: 20px;
+}
+
+.profile-message {
+    color: #c7c9ce;
+    font-size: 17px;
+}
+
+.profile-status {
+    color: #16a34a;
+    font-weight: 600;
+}

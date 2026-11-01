@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { Form, Button, Alert, Spinner } from "react-bootstrap";
-import { login } from "../services/auth";
-import "./AuthForm.css";
+import { login } from "../../../services/auth";
+import "../Signup/AuthForm.css";
 import "./LoginForm.css";
+import { useAuth } from "../../../context/AuthContext";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const { setAuthToken } = useAuth();
 
   async function submitHandler(e) {
     e.preventDefault();
@@ -19,8 +22,8 @@ function LoginForm() {
     try {
       const response = await login(email, password);
 
-      // Development check: log only the ID token.
-      console.log("Firebase ID Token:", response.idToken);
+      // Store Firebase ID token in AuthContext
+      setAuthToken(response.idToken);
 
       alert("Login successful!");
     } catch (error) {

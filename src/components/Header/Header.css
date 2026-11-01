@@ -1,0 +1,48 @@
+.auth-navbar {
+    width: 100%;
+    background: #111114;
+    border-bottom: 1px solid #34343b;
+    padding: 16px 0;
+}
+
+.auth-brand {
+    color: #c7c9ce !important;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.auth-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.login-nav-label {
+    color: #e50925;
+    font-weight: 600;
+}
+
+.profile-btn {
+    background: transparent !important;
+    color: #c7c9ce !important;
+    border: none !important;
+    font-weight: 600;
+}
+
+.profile-btn:hover {
+    color: #ff243f !important;
+}
+
+.logout-btn {
+    background: transparent !important;
+    color: #e50925 !important;
+    border: 1px solid #e50925 !important;
+    padding: 8px 20px;
+    font-weight: 600;
+}
+
+.logout-btn:hover {
+    background: #e50925 !important;
+    color: white !important;
+}
