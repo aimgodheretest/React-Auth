@@ -3,6 +3,8 @@ import { checkTokenValidity } from "../services/auth";
 
 const AuthContext = createContext(null);
 
+const SESSION_DURATION = 5 * 60 * 1000;
+
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => {
     return localStorage.getItem("token");
@@ -12,18 +14,31 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     async function validateToken() {
-      if (!token) {
+      const savedToken = localStorage.getItem("token");
+      const loginTime = localStorage.getItem("loginTime");
+
+      if (!savedToken || !loginTime) {
+        setToken(null);
+        localStorage.removeItem("token");
+        localStorage.removeItem("loginTime");
+        setIsLoading(false);
+        return;
+      }
+
+      const elapsedTime = Date.now() - Number(loginTime);
+
+      // Check whether the 5-minute session has expired
+      if (elapsedTime >= SESSION_DURATION) {
+        logout();
         setIsLoading(false);
         return;
       }
 
       try {
-        await checkTokenValidity(token);
+        await checkTokenValidity(savedToken);
       } catch (error) {
         console.error("Token validation failed:", error.message);
-
-        setToken(null);
-        localStorage.removeItem("token");
+        logout();
       } finally {
         setIsLoading(false);
       }
@@ -32,14 +47,24 @@ export function AuthProvider({ children }) {
     validateToken();
   }, []);
 
+  // Called after successful login: start a new 5-minute session
   function setAuthToken(idToken) {
+    setToken(idToken);
+    localStorage.setItem("token", idToken);
+    localStorage.setItem("loginTime", Date.now().toString());
+  }
+
+  // Update Firebase ID token without restarting the session
+  function updateAuthToken(idToken) {
     setToken(idToken);
     localStorage.setItem("token", idToken);
   }
 
+  // Clear authentication data during logout
   function logout() {
     setToken(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("loginTime");
   }
 
   const contextValue = {
@@ -47,6 +72,7 @@ export function AuthProvider({ children }) {
     isLoggedIn: !!token,
     isLoading,
     setAuthToken,
+    updateAuthToken,
     logout,
   };
 

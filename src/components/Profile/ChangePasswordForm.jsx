@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import "./ChangePasswordForm.css";
 
 function ChangePasswordForm() {
-  const { token, setAuthToken } = useAuth();
+  const { token, updateAuthToken } = useAuth();
 
   const [newPassword, setNewPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +28,7 @@ function ChangePasswordForm() {
       const response = await updatePassword(token, newPassword);
 
       // Update Context with Firebase's newly issued ID token
-      setAuthToken(response.idToken);
+      updateAuthToken(response.idToken);
 
       setSuccess("Password updated successfully!");
       setNewPassword("");
