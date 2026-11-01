@@ -3,16 +3,21 @@ import { createContext, useContext, useState } from "react";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(null);
+  // Load the existing token from localStorage when the app initializes
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem("token");
+  });
 
-  // Store the Firebase ID token
+  // Store the Firebase ID token in state and localStorage
   function setAuthToken(idToken) {
     setToken(idToken);
+    localStorage.setItem("token", idToken);
   }
 
   // Clear the token during logout
   function logout() {
     setToken(null);
+    localStorage.removeItem("token");
   }
 
   const contextValue = {
