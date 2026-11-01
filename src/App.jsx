@@ -26,7 +26,7 @@ const App = () => {
       {isLoggedIn && showProfile && <Profile />}
 
       {isLoggedIn && !showProfile && (
-        <div>
+        <div style={{ textAlign: "center" }}>
           <h2>Welcome!</h2>
           <p>You are logged in successfully.</p>
         </div>

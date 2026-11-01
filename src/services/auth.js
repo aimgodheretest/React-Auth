@@ -55,3 +55,30 @@ export async function login(email, password) {
 
   return data;
 }
+
+//Update Password
+
+export async function updatePassword(idToken, newPassword) {
+  const response = await fetch(
+    `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API_KEY}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        idToken,
+        password: newPassword,
+        returnSecureToken: true,
+      }),
+    },
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error.message);
+  }
+
+  return data;
+}
